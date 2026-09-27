@@ -1,0 +1,354 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px clamp(20px, 4vw, 56px);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--ink);
+}
+
+.services-nav {
+  display: flex;
+  gap: clamp(10px, 2vw, 28px);
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  position: relative;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 13px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 6px 2px;
+  transition: color 0.25s ease;
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover:not(.is-soon) {
+  color: var(--ink);
+}
+
+.nav-item.is-active {
+  color: var(--ink);
+}
+
+.nav-item.is-active::after {
+  transform: scaleX(1);
+}
+
+.nav-item.is-soon {
+  cursor: default;
+  color: rgba(185, 178, 172, 0.4);
+}
+
+.soon-tag {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+/* ---------- stage (fills below topbar) ---------- */
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.cta {
+  margin-top: 28px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  padding: 14px 30px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.cta:hover {
+  background: var(--gold);
+  color: #16130d;
+}
+
+/* ---------- hair scene ---------- */
+
+.hair-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.hair-stage.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hair-stage.is-active {
+    cursor: none;
+  }
+}
+
+.hair-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dryer-cursor {
+  position: absolute;
+  top: -32px;
+  left: -32px;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+  transition: opacity 0.2s ease;
+  opacity: 0;
+}
+
+.hair-stage.is-active .dryer-cursor {
+  opacity: 1;
+}
+
+@media (pointer: coarse) {
+  .dryer-cursor {
+    display: none;
+  }
+}
+
+.dryer-blast path {
+  animation: blast 0.35s linear infinite;
+  opacity: 0;
+}
+
+.dryer-cursor.is-blowing .dryer-blast path {
+  opacity: 1;
+}
+
+.dryer-blast path:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.dryer-blast path:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes blast {
+  0% {
+    opacity: 0.15;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.15;
+    transform: translateX(-6px);
+  }
+}
+
+.hero-copy {
+  position: absolute;
+  left: clamp(20px, 5vw, 64px);
+  bottom: clamp(28px, 6vh, 72px);
+  max-width: 480px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hero-copy h1 {
+  font-size: clamp(32px, 4.6vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+}
+
+.hero-sub {
+  margin-top: 16px;
+  color: var(--ink-dim);
+  font-size: 15px;
+  max-width: 380px;
+}
+
+.hero-copy .cta {
+  pointer-events: auto;
+}
+
+/* ---------- nail studio ---------- */
+
+.nail-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 6vw, 80px);
+  padding: 24px clamp(20px, 6vw, 80px);
+  background: radial-gradient(ellipse at 30% 20%, #1a1610 0%, #0b0b0d 70%);
+}
+
+.nail-stage.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nail-visual {
+  flex: 0 0 auto;
+  width: min(38vw, 360px);
+}
+
+.nail-hand {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+.nail-panel {
+  max-width: 420px;
+}
+
+.nail-panel h2 {
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.15;
+}
+
+.nail-copy {
+  margin-top: 14px;
+  color: var(--ink-dim);
+  font-size: 15px;
+}
+
+.swatches {
+  display: flex;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  outline: 1px solid var(--line);
+  outline-offset: 3px;
+  transition: transform 0.2s ease, outline-color 0.2s ease;
+}
+
+.swatch:hover {
+  transform: translateY(-3px);
+}
+
+.swatch.is-active {
+  outline-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.nail-current {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: var(--ink-dim);
+}
+
+.nail-current-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* ---------- coming soon ---------- */
+
+.soon-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #0b0b0d;
+}
+
+.soon-stage h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  color: var(--ink-dim);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .nail-stage {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 20px;
+    overflow-y: auto;
+  }
+
+  .nail-visual {
+    width: 60vw;
+    max-width: 240px;
+  }
+
+  .hero-copy {
+    max-width: calc(100% - 40px);
+  }
+}
